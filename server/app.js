@@ -23,29 +23,34 @@ var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
 
 //CLIENT-SIDE STREAMING - Light Control - lights.proto
 
-var dataLights = [
+var dataLights = [ //hardcoded room data
   {
-    movieType:"comedy",
-    favouriteMovie: 40
+    roomID:1,
+    turnOn: false
   },
   {
-    movieType:"action",
-    favouriteMovie: 50
+    roomID:2,
+    turnOn: true
   },
   {
-    movieType:"romance",
-    favouriteMovie: 60
+    roomID:3,
+    turnOn: false
   },
   {
-    movieType:"drama",
-    favouriteMovie: 10
+    roomID:4,
+    turnOn: false
   },
   {
-    movieType:"sciFi",
-    favouriteMovie: 40
+    roomID:5,
+    turnOn: true
   }
 ]
 
+function getLightStatus(ca;;, callback) {
+
+
+
+}
 
 
 var server = new grpc.Server()
