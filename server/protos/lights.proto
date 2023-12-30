@@ -7,17 +7,8 @@ package lightcontrol;
 
 service LightControlService  {
     //lights on/off
-    rpc ControlLight(LightControlRequest) returns (LightControlRequest) {}
+    rpc ControlLight(LightControlRequest) returns (LightControlResponse) {}
 
     //query lights' status
     rpc GetLightStatus (LightStatusRequest) returns (LightStatusResponse) {}
-}
-}
-
-message MoviesRequest {
-}
-
-message MovieResponse {
-    string movieType = 1;
-    uint32 favouriteMovie = 2;
 }
