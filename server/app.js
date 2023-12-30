@@ -46,7 +46,12 @@ var dataLights = [ //hardcoded room data
   }
 ]
 
-function getLightStatus(ca;;, callback) {
+function controlLight(call, callback){
+
+  
+}
+
+function getLightStatus(call, callback) {
   for(var i = 0; i<data.length; i++){
     call.write({
       movieType: dataLights[i].roomID,
@@ -56,8 +61,13 @@ function getLightStatus(ca;;, callback) {
   call.end()
 }
 
+//adding service as per guided lab wk 8, but adding 2 services instead, as per: https://grpc.io/docs/languages/node/basics/#starting-the-server
 
-}
+server.addService(lightsProto.LoghtControlService.service, { 
+  ControlLight: controlLight,
+  GetLightStatus: getLightStatus
+});
+
 
 
 var server = new grpc.Server()
