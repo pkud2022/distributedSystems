@@ -18,7 +18,7 @@ message LightControlRequest{
     bool turnOn = 2;
 }
 
-service LightControlResponse{
+message LightControlResponse{
     string status = 1;
 }
 

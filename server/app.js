@@ -19,7 +19,8 @@ var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in w
 );
 
 var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
-
+//this line here
+var lightControlService = loadedProtos.lightcontrol.LightControlService;
 
 //CLIENT-SIDE STREAMING - Light Control - lights.proto
 
@@ -70,7 +71,7 @@ function getLightStatus(call, callback) { //see guided lab 7 for call
 //adding service as per guided lab wk 8, but adding 2 services instead, as per: https://grpc.io/docs/languages/node/basics/#starting-the-server
 
 var server = new grpc.Server()
-server.addService(lightsProto.LoghtControlService.service, { 
+server.addService(lightControlService.service, { 
   ControlLight: controlLight,
   GetLightStatus: getLightStatus
 });
@@ -81,60 +82,6 @@ server.bindAsync('0.0.0.0:8079', grpc.ServerCredentials.createInsecure(), () => 
   server.start();
 });
 
-module.exports = app;
+//module.exports = app; THIS IS COMMENTED OUT - important in the context of Express
 
 
-
-/*DELETE THIS FRAGMENT
-
-var PROTO+PATH = __dirname + "/protos/lights.proto;     
-var packageDefinition = protoLoader.loadSync(
-  PROTO_PATH
-)*/
-
-
- 
-
-
-
-/* THIS IS CODE FROM A LAB PLS IGNORE
-
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;*/
