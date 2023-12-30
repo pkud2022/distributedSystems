@@ -47,7 +47,14 @@ var dataLights = [ //hardcoded room data
 ]
 
 function getLightStatus(ca;;, callback) {
-
+  for(var i = 0; i<data.length; i++){
+    call.write({
+      movieType: dataLights[i].roomID,
+      turnOn: data[i].turnOn
+    })
+  }
+  call.end()
+}
 
 
 }
