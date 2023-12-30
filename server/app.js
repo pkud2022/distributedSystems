@@ -47,14 +47,20 @@ var dataLights = [ //hardcoded room data
 ]
 
 function controlLight(call, callback){
+  var roomID = call.request.roomID;
+  var turnOn = call.request.turnOn;
 
+  lightsStatus[roomID] = turnOn;
   
+  console.log(`Light status in room ${roomID} set to: ${turnOn ? 'ON' : 'OFF'}`);
+  
+    callback(null, { status: "success" }); //wk 8 lab
 }
 
-function getLightStatus(call, callback) {
+function getLightStatus(call, callback) { //see guided lab 7 for call
   for(var i = 0; i<data.length; i++){
     call.write({
-      movieType: dataLights[i].roomID,
+      roomID: dataLights[i].roomID,
       turnOn: data[i].turnOn
     })
   }
@@ -63,14 +69,21 @@ function getLightStatus(call, callback) {
 
 //adding service as per guided lab wk 8, but adding 2 services instead, as per: https://grpc.io/docs/languages/node/basics/#starting-the-server
 
+var server = new grpc.Server()
 server.addService(lightsProto.LoghtControlService.service, { 
   ControlLight: controlLight,
   GetLightStatus: getLightStatus
 });
 
+//launching the server, please note the port
+server.bindAsync('0.0.0.0:8079', grpc.ServerCredentials.createInsecure(), () => {
+  console.log("Server running at http://0.0.0.0:8079");
+  server.start();
+});
+
+module.exports = app;
 
 
-var server = new grpc.Server()
 
 /*DELETE THIS FRAGMENT
 
@@ -83,6 +96,8 @@ var packageDefinition = protoLoader.loadSync(
  
 
 
+
+/* THIS IS CODE FROM A LAB PLS IGNORE
 
 var createError = require('http-errors');
 var express = require('express');
@@ -122,4 +137,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+module.exports = app;*/
