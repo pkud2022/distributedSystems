@@ -10,14 +10,14 @@ service LightControlService  {
     rpc ControlLight(LightControlRequest) returns (LightControlResponse) {}
 
     //query lights' status
-    rpc GetLightStatus (LightStatusRequest) returns (LightStatusResponse) {}
+    rpc GetLightStatus (LightStatusRequest) returns (LightStatusRequest) {}
 }
 
-service LightControlRequest{
+message LightControlRequest{
     string roomID = 0;
-    bool turnOn = false;
+    var turnOn = false;
 }
 
-service LightControlResponse{
-    bool status = false;
+service LightControlResponseAll{
+    var status = 0;
 }

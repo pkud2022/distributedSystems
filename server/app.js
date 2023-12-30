@@ -23,6 +23,28 @@ var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
 
 //CLIENT-SIDE STREAMING - Light Control - lights.proto
 
+var dataLights = [
+  {
+    movieType:"comedy",
+    favouriteMovie: 40
+  },
+  {
+    movieType:"action",
+    favouriteMovie: 50
+  },
+  {
+    movieType:"romance",
+    favouriteMovie: 60
+  },
+  {
+    movieType:"drama",
+    favouriteMovie: 10
+  },
+  {
+    movieType:"sciFi",
+    favouriteMovie: 40
+  }
+]
 
 
 
