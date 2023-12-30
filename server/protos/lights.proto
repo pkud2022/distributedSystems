@@ -12,3 +12,12 @@ service LightControlService  {
     //query lights' status
     rpc GetLightStatus (LightStatusRequest) returns (LightStatusResponse) {}
 }
+
+service LightControlRequest{
+    string roomID = 0;
+    bool turnOn = false;
+}
+
+service LightControlResponse{
+    bool status = false;
+}

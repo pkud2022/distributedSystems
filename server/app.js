@@ -21,7 +21,7 @@ var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in w
 var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
 
 
-
+//CLIENT-SIDE STREAMING - Light Control - lights.proto
 
 
 
