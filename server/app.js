@@ -20,6 +20,14 @@ var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in w
 
 var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
 
+
+
+
+
+
+
+var server = new grpc.Server()
+
 /*DELETE THIS FRAGMENT
 
 var PROTO+PATH = __dirname + "/protos/lights.proto;     
