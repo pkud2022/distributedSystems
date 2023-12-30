@@ -1,9 +1,17 @@
 syntax = "proto3";
 
-package movies;
+package lightcontrol;
 
-service MovieService {
-    rpc getFavouriteMovies(MoviesRequest) returns (stream MovieResponse) {}
+// service definitions as per Project Proposal
+
+
+service LightControlService  {
+    //lights on/off
+    rpc ControlLight(LightControlRequest) returns (LightControlRequest) {}
+
+    //query lights' status
+    rpc GetLightStatus (LightStatusRequest) returns (LightStatusResponse) {}
+}
 }
 
 message MoviesRequest {
