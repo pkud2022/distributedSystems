@@ -1,9 +1,31 @@
 var grpc = require("@grpc/grpc-js");
 var protoLoader = require("@grpc/proto-loader");
-var PROTO+PATH = __dirname + "/protos/ NAME OF THE PROTO HERE"   <------------ protos here
+
+//listing proto files that i will load. I am using const as I will not be re-declaring them
+// refernce source: https://www.npmjs.com/package/@grpc/proto-loader
+const chatProtoPath = __dirname + "/protos/chat.proto";
+const lightsProtoPath = __dirname + "/protos/lights.proto";
+const subscriptionProtoPath = __dirname + "/protos/subscription.proto";
+
+var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in www.npmjs.com
+  [chatProtoPath, lightsProtoPath, subscriptionProtoPath], //array of loaded proto files loaded by loadSync method
+  {
+    keepCase: true, //for constency with proto files
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  }
+);
+
+var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
+
+/*DELETE THIS FRAGMENT
+
+var PROTO+PATH = __dirname + "/protos/lights.proto;     
 var packageDefinition = protoLoader.loadSync(
   PROTO_PATH
-)
+)*/
 
 
  
