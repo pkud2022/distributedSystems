@@ -1,3 +1,15 @@
+var grpc = require("@grpc/grpc-js");
+var protoLoader = require("@grpc/proto-loader");
+var PROTO+PATH = __dirname + "/protos/ NAME OF THE PROTO HERE"   <------------ protos here
+var packageDefinition = protoLoader.loadSync(
+  PROTO_PATH
+)
+
+
+ 
+
+
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
