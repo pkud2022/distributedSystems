@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package lightcontrol;
+
+// service definitions as per Project Proposal
+
+
+service LightControlService  {
+    //lights on/off
+    rpc ControlLight(LightControlRequest) returns (LightControlResponse) {}
+
+    //query lights' status
+    rpc GetLightStatus (LightStatusRequest) returns (LightStatusResponse) {}
+}
+
+message LightControlRequest{
+    string roomID = 1;
+    bool turnOn = 2;
+}
+
+message LightControlResponse{
+    string status = 1;
+}
+
+message LightStatusRequest {
+    string roomID = 1;
+}
+
+message LightStatusResponse {
+    bool isOn = 1; // Current status of the light
+}

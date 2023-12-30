@@ -18,12 +18,12 @@ var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in w
   }
 );
 
-var loadedProtos = grpc.loadPackageDefinition(packageDefinition);
-//this line here
+var loadedProtos = grpc.loadPackageDefinition(packageDefinition); //can i change this to const? 
+//the following line here needs to extract from the protoLoader - i don't know why
 var lightControlService = loadedProtos.lightcontrol.LightControlService;
 
 //CLIENT-SIDE STREAMING - Light Control - lights.proto
-
+var lightsStatus = {};
 var dataLights = [ //hardcoded room data
   {
     roomID:1,
@@ -59,13 +59,17 @@ function controlLight(call, callback){
 }
 
 function getLightStatus(call, callback) { //see guided lab 7 for call
-  for(var i = 0; i<data.length; i++){
-    call.write({
-      roomID: dataLights[i].roomID,
-      turnOn: data[i].turnOn
-    })
+  var roomID = call.request.roomID;
+  
+  if (lightsStatus[roomID] == null) {
+    // If the roomID is found, return its status
+    console.log(`Room ${roomID} status: ${lightsStatus[roomID] ? 'ON' : 'OFF'}`);
+  } else {
+    console.log(`Room ${roomID} status: error (room not found)`);
   }
-  call.end()
+
+  // Since we're just logging to the console, you might want to still send a basic response back
+  callback(null, { status: 'Processed request' });
 }
 
 //adding service as per guided lab wk 8, but adding 2 services instead, as per: https://grpc.io/docs/languages/node/basics/#starting-the-server
