@@ -59,54 +59,84 @@ var client = new lightProto.LightControlService("localhost:8079", grpc.credentia
   }*/
 
   // Method to control light
-function controlLight(roomID, turnOn) {
-    // Correcting the object structure here
+  function controlLight(roomID, turnOn) {
     client.ControlLight({ roomID, turnOn: turnOn === 'true' }, (error, response) => {
       if (!error) {
-        console.log('LightControlResponse:', response);
+        console.log(`Control Light Response: ${response.status}`);
+        console.log(`Lights status in room ${roomID}: ${turnOn === 'true' ? 'ON' : 'OFF'}`);
       } else {
-        console.error(error);
+        console.error(`Error: ${error.message}`);
       }
+      promptUser(); // Call promptUser again after handling the response
     });
   }
   
 
    // Method for Lights' status query 
    function getLightStatus(roomID) {
-    
     client.GetLightStatus({ roomID }, (error, response) => {
       if (!error) {
-        console.log('LightStatusResponse:', response);
+        console.log(`Lights status in room ${roomID}: ${response.isOn ? 'ON' : 'OFF'}`);
       } else {
-        console.error(error);
+        console.error(`Error: ${error.message}`);
       }
+      promptUser(); // Call promptUser again after handling the response
     });
   }
   
   // readLineSync command-line takes user's input.
-   
-  //var userInputCommand = readlineSync.question("Enter command (control/status): ");
- // var roomID = readlineSync.question("Enter roomID: ");
   
-while(true){ //lab wk 2 
+ /*while(true) {
     var userInputCommand = readlineSync.question(
-        "What would you like to do?\n"
-        + "\t Type 'status' to get information on lights status in room. \n"
-        + "\t Type 'control' if you would like to switch light on/off in a room. \n"
-        + "\t Enter roomID\n"
-        + "\t Press Q to quit\n"
-      );
+        "What would you like to do?\n" +
+        "\tType 'status' to get information on lights status in a room.\n" +
+        "\tType 'control' if you would like to switch light on/off in a room.\n" +
+        "\tPress 'Q' to quit.\n"
+    );
+
     if (userInputCommand.toLowerCase() === "q") {
         console.log("Goodbye!");
         break;
     } else if (userInputCommand.toLowerCase() === "status") {
         var roomID = readlineSync.question("Enter roomID: ");
-        getLightStatus(roomID);
+        getLightStatus(roomID, () => {});
     } else if (userInputCommand.toLowerCase() === "control") {
         var roomID = readlineSync.question("Enter roomID: ");
         var turnOn = readlineSync.question("Turn on? (true/false): ");
-        controlLight(roomID, turnOn);
+        controlLight(roomID, turnOn, () => {});
+    }else if (userInputCommand.toLowerCase() === "q") {
+            console.log("Goodbye!");
+            break;
     } else {
         console.log("Invalid command");
     }
-}   
+}*/
+
+function promptUser() {
+    var userInputCommand = readlineSync.question(
+      "\nWhat would you like to do?\n" +
+      "\tType 'status' to get information on lights status in a room.\n" +
+      "\tType 'control' if you would like to switch light on/off in a room.\n" +
+      "\tPress 'Q' to quit.\n"
+    );
+  
+    if (userInputCommand.toLowerCase() === "q") {
+      console.log("Goodbye!");
+      return; // Exit the function
+    } 
+  
+    var roomID = readlineSync.question("Enter roomID: ");
+  
+    if (userInputCommand.toLowerCase() === "status") {
+      getLightStatus(roomID); // Do not call promptUser here
+    } else if (userInputCommand.toLowerCase() === "control") {
+      var turnOn = readlineSync.question("Turn on? (true/false): ");
+      controlLight(roomID, turnOn); // Do not call promptUser here
+    } else {
+      console.log("Invalid command");
+      promptUser(); // Recursive call for invalid command
+    }
+  }
+  
+  // Start the prompt loop
+  promptUser();
