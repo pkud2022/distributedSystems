@@ -1,7 +1,6 @@
 
 
 C:\Users\P\Sites\distributedSystems
-H:\NCI\Distributed Systems\CA 2023\CA code\version 1.01\web-client
 
 
 cmd line to purge the ports:
