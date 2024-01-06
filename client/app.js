@@ -1,8 +1,8 @@
-var readlineSync = require('readline-sync')
+/*var readlineSync = require('readline-sync')
 //var axios = require('axios')  //not needed in this case, can be NOT loaded to save processing power
 var grpc = require("@grpc/grpc-js");
 var protoLoader = require("@grpc/proto-loader");
-
+*/
 /*
 //listing proto files that i will load. I am using const as I will not be re-declaring them
 // refernce source: https://www.npmjs.com/package/@grpc/proto-loader
@@ -21,7 +21,7 @@ var packageDefinition = protoLoader.loadSync( //this is the protoloader, as in w
   }
 );
 */
-
+/*
 const protoPath = __dirname + "/protos/";
 
 var packageDefinition = protoLoader.loadSync(
@@ -45,7 +45,7 @@ var subscriptionProto = grpc.loadPackageDefinition(packageDefinition).subscripti
 
 var lightProto = grpc.loadPackageDefinition(packageDefinition).lightcontrol;
 var client = new lightProto.LightControlService("localhost:8079", grpc.credentials.createInsecure());
-
+*/
 
   /*// Method to control light
   function controlLight(roomID, turnOn) {
@@ -57,7 +57,7 @@ var client = new lightProto.LightControlService("localhost:8079", grpc.credentia
       }
     });
   }*/
-
+  /*
   // Method to control light
   function controlLight(roomID, turnOn) {
     client.ControlLight({ roomID, turnOn: turnOn === 'true' }, (error, response) => {
@@ -83,7 +83,7 @@ var client = new lightProto.LightControlService("localhost:8079", grpc.credentia
       promptUser(); // Call promptUser again after handling the response
     });
   }
-  
+  */
   // readLineSync command-line takes user's input.
   
  /*while(true) {
@@ -111,7 +111,7 @@ var client = new lightProto.LightControlService("localhost:8079", grpc.credentia
         console.log("Invalid command");
     }
 }*/
-
+/*
 function promptUser() {
     var userInputCommand = readlineSync.question(
       "\nWhat would you like to do?\n" +
@@ -140,3 +140,5 @@ function promptUser() {
   
   // Start the prompt loop
   promptUser();
+
+  */

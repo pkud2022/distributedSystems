@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package chat;
+
+// Empty message definition
+message EmptyMessage {}

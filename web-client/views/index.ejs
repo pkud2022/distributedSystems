@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Smart Office Control Website</title>
+</head>
+<body>
+    <h1>Smart Office Control Website</h1>
+    <script src="http://localhost:8082/socket.io/socket.io.js"></script>
+    
+    <h2>Lights Control</h2>
+    
+    <p>Please enter the Room ID number from 1 to 5.</p>
+    <form action="/control-light" method="post">
+        <label for="roomID">Room ID:</label>
+        
+        <input type="text" id="roomID" name="roomID" required>
+        
+        <label for="turnOn">Switch On/Off:</label>
+        <select id="turnOn" name="turnOn">
+            <option value="true">On</option>
+            <option value="false">Off</option>
+        </select>
+
+        <button type="submit">Execute command</button>
+    </form>
+
+    <h2>Check Light Status</h2>
+    
+    <form action="/check-status" method="post">
+        <label for="statusRoomID">Room ID:</label>
+        <input type="text" id="statusRoomID" name="roomID" required>
+        
+        <button type="submit">Check Status</button>
+    </form>
+
+    <!-- Print to screen in Result/Feedback section, see Optional Lab 2-->
+    <% if (typeof result !== 'undefined') { %>
+        <h2><br/>Feedback:</h2>
+        <p><%= result %><br/><br/><br/></p>
+    <% } %>
+
+    <h2>Subscribe to Office Missives</h2>
+    <button id="subscribeButton">Subscribe</button>
+    <button id="unsubscribeButton">Unsubscribe</button>
+
+    <h2>Missives:</h2>
+    <div id="missiveSection"></div>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8081');
+    
+        socket.onopen = function(event) {
+            console.log("Connected to WebSocket server at ws://localhost:8081"); //for testing purposes in browser's console
+        };
+    
+        document.getElementById('subscribeButton').addEventListener('click', () => {
+            socket.send('subscribe');
+        });
+    
+        document.getElementById('unsubscribeButton').addEventListener('click', () => {
+            socket.send('unsubscribe');
+        });
+    
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const missiveText = data.text;
+            const missiveDisplay = document.createElement('p');
+            missiveDisplay.textContent = missiveText;
+            document.getElementById('missiveSection').appendChild(missiveDisplay);
+        };
+    </script>
+
+    <div id="chat-container">
+        <h2>Internal Office Chat Service</h2>
+        <div id="chat-messages" style="border: 1px solid #ddd; padding: 10px; height: 200px; overflow-y: scroll; margin-bottom: 10px;"></div>
+        
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type a message..." autocomplete="off" style="padding: 5px; width: 80%;">
+            <button type="submit" style="padding: 5px 10px;">Send</button>
+        </form>
+    </div>
+    
+
+    <script>
+        // Websocket
+
+        // Socket.IO chat script
+        var chatSocket = io('http://localhost:8082');//socket renamed to avoid conflict, note the port!!
+        var chatForm = document.getElementById('chat-form');
+        var chatInput = document.getElementById('chat-input');
+        var chatMessages = document.getElementById('chat-messages');
+
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (chatInput.value) {
+                console.log("Sending message:", chatInput.value); // for testing in browser's console
+                chatSocket.emit('chat message', chatInput.value);
+                chatInput.value = '';
+            }
+        });
+
+        chatSocket.on('chat message', function(msg) {
+            console.log("Received message:", msg); // for testing in browser's console
+            var item = document.createElement('div');
+            item.textContent = msg;
+            chatMessages.appendChild(item);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to the bottom
+        });
+    </script>
+      
+</body>
+</html>

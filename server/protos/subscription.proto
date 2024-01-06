@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package subscription;
+
+//not used in gRPCServer - WebSocket used instead
+service SubscriptionService {
+  rpc Subscribe (SubscribeRequest) returns (SubscribeResponse);
+  rpc Unsubscribe (UnsubscribeRequest) returns (UnsubscribeResponse);
+  rpc SendMissive (SendMissiveRequest) returns (SendMissiveResponse);
+}
+
+message SubscribeRequest {
+  string userId = 1;
+}
+
+message SubscribeResponse {
+  bool success = 1;
+}
+
+message UnsubscribeRequest {
+  string userId = 1;
+}
+
+message UnsubscribeResponse {
+  bool success = 1;
+}
+
+message SendMissiveRequest {}
+
+message SendMissiveResponse {
+  string text = 1;
+}
